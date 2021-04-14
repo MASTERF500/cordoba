@@ -4,17 +4,36 @@ const mongoose = require('mongoose')
 //rutas
 const User = require('./users')
 const Usuario = require('./usuarios')
+<<<<<<< HEAD
 const mstx = require('./master')
 
 //Conexión con MongoDB
 mongoose.connect('mongodb://localhost/pagination', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 
+=======
+
+mongoose.connect('mongodb://localhost/refacc', { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+db.once('open', async () => {
+  if (await Usuario.countDocuments().exec() > 0) return
+
+  Promise.all([
+    Usuario.create({ name: 'Edwin C.',email:'magnumf500@gmail.com',rol:'admin' }),
+    Usuario.create({ name: 'Edwin A.',email:'mag@gmail.com',rol:'admin' }),
+  ]).then(() => console.log('Added Users'))
+})
+>>>>>>> 3f6249d28991d6e613032b2a869906da92009209
+
+app.get('/usuarios', paginatedResults(Usuario), (req, res) => {
+  res.json(res.paginatedResults)
+})
 
 app.get('/users', paginatedResults(User), (req, res) => {
   res.json(res.paginatedResults)
 })
 
+<<<<<<< HEAD
 app.get('/mst', async (req, res) => {
   try {
     const usdatos = await mstx.find()
@@ -24,6 +43,8 @@ app.get('/mst', async (req, res) => {
   }
 })
 
+=======
+>>>>>>> 3f6249d28991d6e613032b2a869906da92009209
 
 function paginatedResults(model) {
   return async (req, res, next) => {
